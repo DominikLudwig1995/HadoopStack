@@ -1,8 +1,5 @@
 FROM debian:9
 
-MAINTAINER Ivan Ermilov <ivan.s.ermilov@gmail.com>
-MAINTAINER Giannis Mouchakis <gmouchakis@iit.demokritos.gr>
-
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
       openjdk-8-jdk \
       net-tools \
@@ -11,7 +8,9 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-ins
       gnupg \
       libsnappy-dev \
     && rm -rf /var/lib/apt/lists/*
-      
+
+RUN addgroup hive && addgroup hadoop && useradd -p '4y3syhmyrNRd.' -g hive hive && usermod -a -G hadoop hive
+
 ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
 
 RUN curl -O https://dist.apache.org/repos/dist/release/hadoop/common/KEYS
